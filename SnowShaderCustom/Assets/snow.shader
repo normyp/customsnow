@@ -1,4 +1,6 @@
-﻿Shader "Custom/snow" {
+﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "Custom/snow" {
 	Properties {
 		_Color ("Snow Colour", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
@@ -9,7 +11,7 @@
 		LOD 200
 		
 		CGPROGRAM
-		#pragma surface surf Standard fullforwardshadows
+		#pragma surface surf Standard fullforwardshadows vertex:vert
 
 		#pragma target 3.0
 
@@ -24,6 +26,14 @@
 		};
 
 		fixed4 _Color;
+
+		void vert(inout appdata_full v) {
+			float4 objVertical = mul(float4(0.0, 1.0, 0.0, 1.0), unity_WorldToObject);
+			float angle = dot(v.normal, objVertical.xyz);
+			if (angle > 0.8) {
+				v.vertex.xyz += (objVertical + v.normal) * angle * 0.1;
+			}
+		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			//Set the out normal to the normal of the bump surface
