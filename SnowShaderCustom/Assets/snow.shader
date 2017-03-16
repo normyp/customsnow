@@ -28,7 +28,7 @@ Shader "Custom/snow" {
 		fixed4 _Color;
 
 		void vert(inout appdata_full v) {
-			float4 objVertical = mul(float4(0.0, 1.0, 0.0, 1.0), unity_WorldToObject);
+			float4 objVertical = mul(float4(0.0, 0.5, 0.0, 1.0), unity_WorldToObject);
 			float angle = dot(v.normal, objVertical.xyz);
 			if (angle > 0.8) {
 				v.vertex.xyz += (objVertical + v.normal) * angle * 0.1;
