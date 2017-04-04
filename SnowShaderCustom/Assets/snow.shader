@@ -6,7 +6,7 @@ Shader "Custom/snow" {
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
 		_Bump ("Bump surface", 2D) = "bump" {}
 		_Z ("Z", Range(0, 10)) = 0.2
-		_Depth ("Depth", Range(0, 10)) = 0.2
+		_Depth ("Depth", Range(0, 100)) = 0.2
 		_SnowLevel ("Snow Level", Range(0, 1)) = 0.01
 	}
 	SubShader {
@@ -35,11 +35,11 @@ Shader "Custom/snow" {
 
 		void vert(inout appdata_full v) {
 			float timeDepth = _Time.y;
-			if(timeDepth < 10.0f) {
+			if(timeDepth < 20.0f) {
 				timeDepth = _Time.y;
 			}
 			else {
-				timeDepth = 0.0f;
+				timeDepth = 20.0f;
 			}
 			float4 objVertical = mul(float4(0.0, _Depth + timeDepth, 0.0, 1.0), unity_WorldToObject);
 			float angle = dot(v.normal, objVertical.xyz);
